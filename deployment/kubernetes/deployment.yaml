@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: evershop
+  labels:
+    app: evershop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: evershop
+  template:
+    metadata:
+      labels:
+        app: evershop
+    spec:
+      containers:
+        - name: evershop
+          image: evershop/evershop:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DB_HOST
+              value: database
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_PASSWORD
+              value: postgres
+            - name: DB_USER
+              value: postgres
+            - name: DB_NAME
+              value: postgres
+            - name: NODE_ENV
+              value: development
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+            requests:
+              memory: "128Mi"
+              cpu: "500m"
+      imagePullSecrets:
+        - name: regcred
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database
+  labels:
+    app: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: database
+  template:
+    metadata:
+      labels:
+        app: database
+    spec:
+      containers:
+        - name: database
+          image: postgres:16
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_PASSWORD
+              value: postgres
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_DB
+              value: postgres
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+            requests:
+              memory: "128Mi"
+              cpu: "500m"
+      imagePullSecrets:
+        - name: regcred
