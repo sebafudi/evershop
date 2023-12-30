@@ -640,6 +640,9 @@ class SelectQuery extends Query {
       let { rows } = await connection.query({ text: sql, values: binding });
       return rows;
     } catch (e) {
+      if (connection.INTRANSACTION === true) {
+        throw e;
+      }
       if (e.code === '42703') {
         this.removeOrderBy();
         return await super.execute(connection, false);
@@ -774,7 +777,7 @@ class UpdateQuery extends Query {
   async execute(connection, releaseConnection = true) {
     const rows = await super.execute(connection, releaseConnection);
     const updatedRow = rows[0];
-    if (this._primaryColumn) {
+    if (this._primaryColumn && updatedRow) {
       updatedRow['updatedId'] = updatedRow[this._primaryColumn];
     }
     return updatedRow;
