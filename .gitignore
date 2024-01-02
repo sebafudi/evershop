@@ -3,19 +3,19 @@ node_modules
 deployment.env
 ./dist
 /extensions/*
-themes
+# themes
 .idea/*
 .evershop
 .vscode
 npm-debug.log
 /package-log.json
-/media
-/public
+# /media
+# /public
 .DS_Store
 .log
 coverage
 cypress
-/config
+# /config
 .prettierignore
 .prettierrc
 mysqlToPostgres.js
