@@ -19,6 +19,9 @@ resource "google_project_service" "cloudresourcemanager" {
 
 resource "google_project_service" "cloudbuild" {
   service = "cloudbuild.googleapis.com"
+  depends_on = [
+    google_project_service.cloudresourcemanager,
+  ]
 }
 
 resource "google_project_service" "sourcerepo" {
@@ -144,38 +147,38 @@ provider "kubernetes" {
   )
 }
 
-resource "kubernetes_deployment" "example" {
-  metadata {
-    name = "example-deployment"
-  }
+# resource "kubernetes_deployment" "example" {
+#   metadata {
+#     name = "example-deployment"
+#   }
 
-  spec {
-    replicas = 3
+#   spec {
+#     replicas = 3
 
-    selector {
-      match_labels = {
-        app = "example"
-      }
-    }
+#     selector {
+#       match_labels = {
+#         app = "example"
+#       }
+#     }
 
-    template {
-      metadata {
-        labels = {
-          app = "example"
-        }
-      }
+#     template {
+#       metadata {
+#         labels = {
+#           app = "example"
+#         }
+#       }
 
-      spec {
-        container {
-          image = "gcr.io/${local.project_id}/evershop:latest"
-          name  = "example"
-        }
-      }
-    }
-  }
+#       spec {
+#         container {
+#           image = "gcr.io/${local.project_id}/evershop:latest"
+#           name  = "example"
+#         }
+#       }
+#     }
+#   }
 
-  depends_on = [
-    google_container_node_pool.primary_pool,
-  ]
+#   depends_on = [
+#     google_container_node_pool.primary_pool,
+#   ]
 
-}
+# }

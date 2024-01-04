@@ -1,11 +1,21 @@
 steps:
   # Step 1: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/evershop:$SHORT_SHA', "-t", "gcr.io/$PROJECT_ID/evershop:latest", '.']
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/evershop:$SHORT_SHA', '.']
 
   # Step 2: Push the image to Google Container Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/evershop:$SHORT_SHA']
+    
+  # Step 3: Tag the image with the 'latest' tag
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['tag', 'gcr.io/$PROJECT_ID/evershop:$SHORT_SHA', 'gcr.io/$PROJECT_ID/evershop:latest']
+
+  # Step 4: Push the image with the 'latest' tag
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/evershop:latest']
+
+  
 
 images:
   - 'gcr.io/$PROJECT_ID/evershop:$SHORT_SHA'
