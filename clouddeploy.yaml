@@ -1,0 +1,11 @@
+apiVersion: deploy.cloud.google.com/v1
+kind: DeliveryPipeline
+metadata:
+  name: my-delivery-pipeline
+description: "Delivery pipeline for my application"
+serialPipeline:
+  stages:
+    - targetId: test
+      profiles: ["test"]
+    - targetId: prod
+      profiles: ["prod"]

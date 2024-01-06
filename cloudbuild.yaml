@@ -15,33 +15,9 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/evershop:latest']
 
-    
-  # Step to replace placeholders in deployment.yaml
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        sed -i 's|<PROJECT_ID>|'"$PROJECT_ID"'|g' ./deployment/kubernetes/deployment.yaml
-        sed -i 's|<VERSION>|'"$SHORT_SHA"'|g' ./deployment/kubernetes/deployment.yaml
-
+  # Step 5: set image in kube deployment
   - name: 'gcr.io/cloud-builders/kubectl'
-    args: ['apply', '-f', 'deployment/kubernetes/secrets.yaml']
-    env:
-      - 'CLOUDSDK_COMPUTE_ZONE=europe-west1'
-      - 'CLOUDSDK_CONTAINER_CLUSTER=evershop-cluster'
-
-  - name: 'gcr.io/cloud-builders/kubectl'
-    args: ['apply', '-f', 'deployment/kubernetes/deployment.yaml']
-    env:
-      - 'CLOUDSDK_COMPUTE_ZONE=europe-west1'
-      - 'CLOUDSDK_CONTAINER_CLUSTER=evershop-cluster'
-
-  - name: 'gcr.io/cloud-builders/kubectl'
-    args: ['apply', '-f', 'deployment/kubernetes/service.yaml']
-    env:
-      - 'CLOUDSDK_COMPUTE_ZONE=europe-west1'
-      - 'CLOUDSDK_CONTAINER_CLUSTER=evershop-cluster'
+    args: ['set', 'image', 'deployment/evershop', 'evershop=gcr.io/$PROJECT_ID/evershop:$SHORT_SHA']
 
 
   

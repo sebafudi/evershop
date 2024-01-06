@@ -37,3 +37,10 @@ resource "google_project_service" "container" {
     google_project_service.cloudresourcemanager,
   ]
 }
+
+resource "google_project_service" "clouddeploy" {
+  service = "clouddeploy.googleapis.com"
+  depends_on = [
+    google_project_service.cloudresourcemanager,
+  ]
+}
