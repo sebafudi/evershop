@@ -27,9 +27,15 @@ steps:
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=evershop-cluster'
+      
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['apply', '-f', 'deployment/kubernetes/secrets.yaml']
 
   - name: 'gcr.io/cloud-builders/kubectl'
     args: ['apply', '-f', 'deployment/kubernetes/deployment.yaml']
+
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['apply', '-f', 'deployment/kubernetes/service.yaml']
 
 
   
