@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: evershop
-          image: gcr.io/playground-s-11-352a836b/evershop:latest
+          image: gcr.io/<PROJECT_ID>/evershop:<VERSION>
           ports:
             - containerPort: 3000
           env:
