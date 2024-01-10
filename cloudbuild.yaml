@@ -14,13 +14,6 @@ steps:
   # Step 4: Push the image with the 'latest' tag
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/evershop:latest']
-
-  # Step 5: set image in kube deployment
-  - name: 'gcr.io/cloud-builders/kubectl'
-    args: ['set', 'image', 'deployment/evershop', 'evershop=gcr.io/$PROJECT_ID/evershop:$SHORT_SHA']
-    env:
-      - 'CLOUDSDK_COMPUTE_ZONE=europe-west1'
-      - 'CLOUDSDK_CONTAINER_CLUSTER=evershop-cluster'
     
 
 
