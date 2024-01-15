@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: evershop
-          image: gcr.io/playground-s-11-7a7554e5/evershop:latest
+          image: gcr.io/<PROJECT_ID>/evershop:latest
           ports:
             - containerPort: 3000
           env:
@@ -53,7 +53,7 @@ spec:
         - name: cloudsql-proxy
           image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
           command: ["/cloud_sql_proxy",
-                    "-instances=playground-s-11-7a7554e5:europe-west1:evershop-postgres=tcp:5432",
+                    "-instances=<PROJECT_ID>:europe-west1:evershop-postgres=tcp:5432",
                     "-credential_file=/secrets/cloudsql/credentials.json"]
           volumeMounts:
             - name: cloudsql-instance-credentials
